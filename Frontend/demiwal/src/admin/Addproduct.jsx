@@ -31,6 +31,7 @@ export default function AddProduct() {
                 ...form,
                 price: Number(form.price),
                 stock: form.stock === "" ? 0 : Number(form.stock),
+                
             };
 
             await api.post("/products/add", payload);

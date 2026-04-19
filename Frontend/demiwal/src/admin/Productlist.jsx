@@ -4,10 +4,22 @@ import { Link } from "react-router";
 
 export default function ProductList() {
     const [products, setProducts] = useState([]);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const loadProducts = async () => {
-        const response = await api.get("/products");
-        setProducts(Array.isArray(response.data?.products) ? response.data.products : []);
+        try {
+            setErrorMessage("");
+            const response = await api.get("/products");
+            const productList = Array.isArray(response.data)
+                ? response.data
+                : Array.isArray(response.data?.products)
+                    ? response.data.products
+                    : [];
+            setProducts(productList);
+        } catch (err) {
+            setProducts([]);
+            setErrorMessage(err.response?.data?.message || "Unable to load products");
+        }
     }
 
     const deletedProduct = async (id) => {
@@ -60,6 +72,13 @@ export default function ProductList() {
                         </td>
                     </tr>
                 ))}
+                {products.length === 0 && (
+                    <tr>
+                        <td colSpan="4" className="border border-gray-200 px-4 py-4 text-center text-gray-600">
+                            {errorMessage || "No products found"}
+                        </td>
+                    </tr>
+                )}
             </tbody>
             </table>
         </div>
