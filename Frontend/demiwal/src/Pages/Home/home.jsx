@@ -12,7 +12,14 @@ export default function Home() {
     const res = await api.get(
       `/products?search=${search}&category=${category}`
     );
-    setProducts(res.data);
+
+    const productList = Array.isArray(res.data)
+      ? res.data
+      : Array.isArray(res.data?.products)
+        ? res.data.products
+        : [];
+
+    setProducts(productList);
   };
 
   useEffect(() => {
