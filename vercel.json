@@ -1,15 +1,20 @@
 {
   "installCommand": "npm install --prefix Backend && npm install --prefix Frontend/demiwal",
   "buildCommand": "npm run build --prefix Frontend/demiwal",
+  "outputDirectory": "Frontend/demiwal/dist",
   "functions": {
     "api/[...all].js": {
       "runtime": "@vercel/node"
     }
   },
-  "routes": [
+  "rewrites": [
     {
-      "src": "/(.*)",
-      "dest": "/api/[...all]"
+      "source": "/api/(.*)",
+      "destination": "/api/[...all]"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
