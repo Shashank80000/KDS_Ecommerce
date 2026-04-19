@@ -77,9 +77,9 @@ export default function Home() {
                focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">All Categories</option>
-          <option value="Electronics">Electronics</option>
+          <option value="electronics">Electronics</option>
           <option value="women">Women</option>
-          <option value="Men">Men</option>
+          <option value="men">Men</option>
         </select>
       </div>
 

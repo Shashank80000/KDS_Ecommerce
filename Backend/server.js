@@ -1,8 +1,6 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import path from "path";
-import { fileURLToPath } from "url";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/aouthrouts.js";
 import productRoutes from "./routes/productroutes.js";
@@ -12,41 +10,10 @@ import orderRoutes from "./routes/orderRouts.js";
 
 dotenv.config();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const frontendDistPath = path.join(__dirname, "..", "Frontend", "demiwal", "dist");
-
 const app = express();
-let dbConnectPromise;
-
-const ensureDbConnected = () => {
-    if (!dbConnectPromise) {
-        dbConnectPromise = connectDB();
-    }
-
-    return dbConnectPromise;
-};
 
 app.use(cors());
 app.use(express.json());
-
-// Deployment health check endpoint that avoids DB dependency.
-app.get('/api/health', (req, res) => {
-    res.status(200).json({
-        ok: true,
-        service: 'api',
-        timestamp: new Date().toISOString()
-    });
-});
-
-app.use('/api', async (req, res, next) => {
-    try {
-        await ensureDbConnected();
-        next();
-    } catch (error) {
-        res.status(500).json({ message: "Database connection failed", error: error.message });
-    }
-});
 
 
 // Routes
@@ -57,13 +24,15 @@ app.use('/cart', cartRoutes)
 app.use('/api/address', addressRoutes)
 app.use('/api/orders', orderRoutes)
 
-app.use(express.static(frontendDistPath));
 
-app.get('/{*any}', (req, res) => {
-    res.sendFile(path.join(frontendDistPath, "index.html"));
-});
+
+app.get('/', (req,res)=>{
+    res.send('Api is running ') 
+})
 
 const startServer = async () => {
+    await connectDB();
+
     const port = process.env.PORT || 5001;
 
     app.listen(port,()=>{
@@ -71,8 +40,4 @@ const startServer = async () => {
     });
 };
 
-if (process.env.NODE_ENV !== "production" || !process.env.VERCEL) {
-    startServer();
-}
-
-export default app;
+startServer();
