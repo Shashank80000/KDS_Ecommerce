@@ -7,19 +7,27 @@ export default function Home() {
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
+  const [loadError, setLoadError] = useState("");
 
   const loadProducts = async () => {
-    const res = await api.get(
-      `/products?search=${search}&category=${category}`
-    );
+    try {
+      const res = await api.get(
+        `/products?search=${search}&category=${category}`
+      );
 
-    const productList = Array.isArray(res.data)
-      ? res.data
-      : Array.isArray(res.data?.products)
-        ? res.data.products
-        : [];
+      const productList = Array.isArray(res.data)
+        ? res.data
+        : Array.isArray(res.data?.products)
+          ? res.data.products
+          : [];
 
-    setProducts(productList);
+      setProducts(productList);
+      setLoadError("");
+    } catch (error) {
+      setProducts([]);
+      setLoadError("Unable to load products. Start backend server and try again.");
+      console.error("Failed to load products", error);
+    }
   };
 
   useEffect(() => {
@@ -76,6 +84,12 @@ export default function Home() {
       </div>
 
       {/* Products Grid */}
+      {loadError && (
+        <div className="mb-4 rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+          {loadError}
+        </div>
+      )}
+
       <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
         {products.map((product) => (
           <div
