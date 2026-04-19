@@ -30,6 +30,15 @@ const ensureDbConnected = () => {
 app.use(cors());
 app.use(express.json());
 
+// Deployment health check endpoint that avoids DB dependency.
+app.get('/api/health', (req, res) => {
+    res.status(200).json({
+        ok: true,
+        service: 'api',
+        timestamp: new Date().toISOString()
+    });
+});
+
 app.use('/api', async (req, res, next) => {
     try {
         await ensureDbConnected();
@@ -50,7 +59,7 @@ app.use('/api/orders', orderRoutes)
 
 app.use(express.static(frontendDistPath));
 
-app.get('*', (req, res) => {
+app.get('/{*any}', (req, res) => {
     res.sendFile(path.join(frontendDistPath, "index.html"));
 });
 
