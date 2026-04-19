@@ -10,7 +10,6 @@ export const createProduct = async (req, res) => {
             description,
             price,
             category,
-            catogory,
             image,
             stock
         } = req.body;
