@@ -1,29 +1,20 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "Backend/server.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "Frontend/demiwal/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
+  "installCommand": "cd Frontend/demiwal && npm install && cd ../../Backend && npm install",
+  "buildCommand": "cd Frontend/demiwal && npm run build",
+  "outputDirectory": "Frontend/demiwal/dist",
+  "functions": {
+    "Backend/server.js": {
+      "runtime": "@vercel/node"
     }
-  ],
-  "routes": [
+  },
+  "rewrites": [
     {
-      "src": "/api/(.*)",
-      "dest": "Backend/server.js"
+      "source": "/api/(.*)",
+      "destination": "/Backend/server.js"
     },
     {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
