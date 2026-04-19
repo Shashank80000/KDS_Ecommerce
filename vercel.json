@@ -2,19 +2,13 @@
   "installCommand": "cd Frontend/demiwal && npm install && cd ../../Backend && npm install",
   "buildCommand": "cd Frontend/demiwal && npm run build",
   "outputDirectory": "Frontend/demiwal/dist",
-  "functions": {
-    "Backend/server.js": {
-      "runtime": "@vercel/node"
-    }
-  },
-  "rewrites": [
+  "routes": [
     {
-      "source": "/api/(.*)",
-      "destination": "/Backend/server.js"
+      "handle": "filesystem"
     },
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ]
 }
