@@ -1,0 +1,11 @@
+{
+  "installCommand": "cd Frontend/demiwal && npm install",
+  "buildCommand": "cd Frontend/demiwal && npm run build",
+  "outputDirectory": "Frontend/demiwal/dist",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
