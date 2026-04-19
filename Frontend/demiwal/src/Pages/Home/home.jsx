@@ -25,7 +25,10 @@ export default function Home() {
       setLoadError("");
     } catch (error) {
       setProducts([]);
-      setLoadError("Unable to load products. Start backend server and try again.");
+      setLoadError(
+        error?.response?.data?.message ||
+        "Unable to load products right now. Please try again."
+      );
       console.error("Failed to load products", error);
     }
   };
