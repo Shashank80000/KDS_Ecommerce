@@ -9,7 +9,7 @@ export default function ProductList() {
     const loadProducts = async () => {
         try {
             setErrorMessage("");
-            const response = await api.get("/products");
+            const response = await api.post("/products");
             const productList = Array.isArray(response.data)
                 ? response.data
                 : Array.isArray(response.data?.products)
