@@ -11,9 +11,27 @@ import orderRoutes from "./routes/orderRouts.js";
 dotenv.config();
 
 const app = express();
+let dbConnectPromise;
+
+const ensureDbConnected = () => {
+    if (!dbConnectPromise) {
+        dbConnectPromise = connectDB();
+    }
+
+    return dbConnectPromise;
+};
 
 app.use(cors());
 app.use(express.json());
+
+app.use(async (req, res, next) => {
+    try {
+        await ensureDbConnected();
+        next();
+    } catch (error) {
+        res.status(500).json({ message: "Database connection failed", error: error.message });
+    }
+});
 
 
 // Routes
@@ -31,7 +49,7 @@ app.get('/', (req,res)=>{
 })
 
 const startServer = async () => {
-    await connectDB();
+    await ensureDbConnected();
 
     const port = process.env.PORT || 5001;
 
@@ -40,4 +58,8 @@ const startServer = async () => {
     });
 };
 
-startServer();
+if (process.env.NODE_ENV !== "production" || !process.env.VERCEL) {
+    startServer();
+}
+
+export default app;
