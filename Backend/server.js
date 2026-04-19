@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/aouthrouts.js";
 import productRoutes from "./routes/productroutes.js";
@@ -9,6 +11,10 @@ import addressRoutes from "./routes/addressrouts.js";
 import orderRoutes from "./routes/orderRouts.js";
 
 dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const frontendDistPath = path.join(__dirname, "..", "Frontend", "demiwal", "dist");
 
 const app = express();
 let dbConnectPromise;
@@ -24,7 +30,7 @@ const ensureDbConnected = () => {
 app.use(cors());
 app.use(express.json());
 
-app.use(async (req, res, next) => {
+app.use('/api', async (req, res, next) => {
     try {
         await ensureDbConnected();
         next();
@@ -42,15 +48,13 @@ app.use('/cart', cartRoutes)
 app.use('/api/address', addressRoutes)
 app.use('/api/orders', orderRoutes)
 
+app.use(express.static(frontendDistPath));
 
-
-app.get('/', (req,res)=>{
-    res.send('Api is running ') 
-})
+app.get('*', (req, res) => {
+    res.sendFile(path.join(frontendDistPath, "index.html"));
+});
 
 const startServer = async () => {
-    await ensureDbConnected();
-
     const port = process.env.PORT || 5001;
 
     app.listen(port,()=>{
