@@ -33,8 +33,10 @@ app.get('/', (req,res)=>{
 const startServer = async () => {
     await connectDB();
 
-    app.listen(5001,()=>{
-        console.log("server is running at 5001");
+    const port = process.env.PORT || 5001;
+
+    app.listen(port,()=>{
+        console.log(`server is running at ${port}`);
     });
 };
 
