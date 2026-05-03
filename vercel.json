@@ -1,7 +1,7 @@
 {
-  "installCommand": "npm install --prefix Backend && npm install --prefix Frontend/demiwal",
-  "buildCommand": "npm run build --prefix Frontend/demiwal",
-  "outputDirectory": "Frontend/demiwal/dist",
+  "installCommand": "npm install --prefix Backend && npm install --prefix Frontend/shashank",
+  "buildCommand": "npm run build --prefix Frontend/shashank",
+  "outputDirectory": "Frontend/shashank/dist",
   "rewrites": [
     {
       "source": "/api/(.*)",
