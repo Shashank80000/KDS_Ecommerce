@@ -34,7 +34,12 @@ export default function AddProduct() {
                 
             };
 
-            await api.post("/products/add", payload);
+            await api.post("/admin/add", payload, {
+    headers: {
+        Authorization: `Bearer ${localStorage.getItem("adminToken")}`
+    }
+});
+
             alert("Product added successfully!");
             navigate("/admin/products");
         }catch(err){

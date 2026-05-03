@@ -12,6 +12,8 @@ import Cart from "./Pages/Cart/cart.jsx";
 import Checkout from "./Pages/checkout/cheakout.jsx";
 import CheckoutAddress from "./Pages/checkout/cheakoutAddress.jsx";
 import OrderSuccess from "./Pages/checkout/OrderSuccess.jsx";
+import ProtectedRoute from "./productedRoute.jsx";
+import AdminLogin from "./admin/adminLogin.jsx";
 
 
 function Layout() {
@@ -32,19 +34,41 @@ const router = createBrowserRouter([
       { path: "/signup", element: <Signup /> },
       { path: "/product/:id", element: <ProductDetail /> },
       { path: "/cart", element: <Cart /> },
-      { path: "/admin/products", element: <ProductList /> },
-      { path: "/admin/products/add", element: <AddProduct /> },
-      { path: "/admin/products/edit/:id", element: <EditProduct /> },
+      {
+        path: "/admin/products",
+        element: (
+          <ProtectedRoute>
+            <ProductList />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/admin/products/add",
+        element: (
+          <ProtectedRoute>
+            <AddProduct />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/admin/products/edit/:id",
+        element: (
+          <ProtectedRoute>
+            <EditProduct />
+          </ProtectedRoute>
+        ),
+      },
       { path: "/checkout", element: <Checkout /> },
       { path: "/checkout-address", element: <CheckoutAddress /> },
       { path: "/order-success/:id", element: <OrderSuccess /> },
+      { path: "/admin/login", element: <AdminLogin /> }
 
     ],
   },
 ]);
 
-export default function App(){
-    return <RouterProvider router = {router}/>;
+export default function App() {
+  return <RouterProvider router={router} />;
 
 }
 

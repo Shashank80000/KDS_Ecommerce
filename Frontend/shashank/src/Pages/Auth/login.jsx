@@ -62,7 +62,7 @@ function Login() {
       <div className="w-full max-w-5xl bg-white rounded-2xl shadow-xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
         <div className="bg-indigo-600 text-white p-8 flex flex-col justify-between">
           <div>
-            <h3>Demiwal</h3>
+            <h3>Pandey Ji</h3>
 
             <div className="mt-16">
               <h1 className="text-3xl font-bold">Welcome Back</h1>

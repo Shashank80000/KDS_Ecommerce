@@ -7,6 +7,7 @@ import productRoutes from "./routes/productroutes.js";
 import cartRoutes from "./routes/cart.js";
 import addressRoutes from "./routes/addressrouts.js";
 import orderRoutes from "./routes/orderRouts.js";
+import adminRoutes from "./routes/adminRoutes.js";
 
 dotenv.config();
 
@@ -40,6 +41,7 @@ app.use('/api/products', productRoutes)
 app.use('/api/cart', cartRoutes)
 app.use('/api/address', addressRoutes)
 app.use('/api/orders', orderRoutes)
+app.use("/api/admin", adminRoutes);
 
 
 const startServer = async () => {
