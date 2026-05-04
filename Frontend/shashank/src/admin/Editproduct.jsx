@@ -32,10 +32,14 @@ export default function EditProduct() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await api.put(`/products/update/${id}`, form);
+   
+     
+    await api.put(`/admin/update/${id}`, form);
     alert("Product updated!");
     navigate("/admin/products");
   };
+
+
 
   return (
     <div className="max-w-lg mx-auto mt-10 bg-white p-6 shadow rounded">
